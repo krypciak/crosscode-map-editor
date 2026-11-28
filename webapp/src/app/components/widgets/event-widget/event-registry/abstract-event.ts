@@ -104,7 +104,6 @@ export type WMTypeNames = 'Action'
 	| 'WalkAnimConfig'
 	| 'XenoDialog';
 
-
 export namespace WMTypes {
 	export type VarExpression<T> =
 		T |
@@ -188,6 +187,10 @@ export abstract class AbstractEvent<T extends EventType> {
 	}
 
 	public abstract getAttributes(): EntityAttributes | undefined;
+
+	public getBranchNames(): string[] | undefined {
+		return undefined;
+	};
 
 	public abstract update(): void;
 

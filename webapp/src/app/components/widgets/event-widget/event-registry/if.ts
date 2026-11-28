@@ -24,6 +24,10 @@ export class If extends AbstractEvent<IfData> {
 	getAttributes() {
 		return this.attributes;
 	}
+
+	override getBranchNames(): string[] | undefined {
+		return ['thenStep', 'elseStep'];
+	}
 	
 	update() {
 		this.children = [];

@@ -22,6 +22,16 @@ export class SelectRandom extends AbstractEvent<SelectRandomData> {
 		return this.attributes;
 	}
 
+	override getBranchNames(): string[] | undefined {
+		const branches: string[] = [];
+		this.data.options.forEach((option, optionIndex) => {
+			for (let branch = 0; branch < option.count; branch++) {
+				branches.push(optionIndex  + '_' + branch);
+			}
+		});
+		return branches;
+	}
+
 	update() {
 		this.children = [];
 		this.info = this.getTypeString('#ffffff');

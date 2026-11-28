@@ -15,10 +15,16 @@ interface DefaultEventData extends EventType {
 	[key: string]: any;
 }
 
+export interface BranchesData {
+	type: 'list';
+	names: string[];
+}
+
 interface JsonEventType {
 	attributes: {
 		[key: string]: { noLabel: boolean } & AttributeValue;
 	};
+	branches?: BranchesData;
 }
 
 export class DefaultEvent<T extends EventType = DefaultEventData> extends AbstractEvent<T> {
@@ -44,6 +50,18 @@ export class DefaultEvent<T extends EventType = DefaultEventData> extends Abstra
 		}
 		return undefined;
 	}
+
+	override getBranchNames(): string[] | undefined {
+		const branchData = this.type?.branches;
+		if (!branchData) {
+			return undefined;
+		}
+		if (branchData.type === 'list') {
+			return branchData.names;
+		} else {
+			throw new Error('unhandled branchData type');
+		}
+	}
 	
 	update() {
 		this.info = this.getTypeString('#ff5a5b');
@@ -59,6 +77,18 @@ export class DefaultEvent<T extends EventType = DefaultEventData> extends Abstra
 			if (this.data[key as keyof T] !== undefined) {
 				this.info += ' ' + this.getPropString(key);
 			}
+		}
+
+		const branchNames = this.getBranchNames() ?? [];
+		for (let i = 0; i < branchNames.length; i++) {
+			const branchName = branchNames[i];
+			const events = this.data[branchName as keyof typeof this.data] as AbstractEvent<any>[] ?? [];
+			this.children[i] = {
+				title: branchName,
+				events,
+				draggable: false
+			};
+
 		}
 	}
 	

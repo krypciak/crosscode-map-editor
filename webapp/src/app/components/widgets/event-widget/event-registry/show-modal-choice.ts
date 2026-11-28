@@ -13,6 +13,10 @@ export interface ShowModalChoiceData extends EventType {
 }
 
 export class ShowModalChoice extends DefaultEvent<ShowModalChoiceData> {
+    override getBranchNames(): string[] | undefined {
+        return Object.keys(this.data.options);
+    }
+
     override update() {
         this.children = [];
         this.info = this.combineStrings(

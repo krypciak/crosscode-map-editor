@@ -24,6 +24,10 @@ export class StartNpcTradeMenu extends AbstractEvent<StartNpcTradeMenuData> {
 	getAttributes(): EntityAttributes {
 		return this.attributes;
 	}
+
+	override getBranchNames(): string[] | undefined {
+		return ['traded', 'canceled'];
+	}
 	
 	update() {
 		this.children.length = 0;

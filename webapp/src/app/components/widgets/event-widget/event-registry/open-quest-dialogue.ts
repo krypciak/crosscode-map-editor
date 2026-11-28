@@ -40,6 +40,10 @@ export class OpenQuestDialog extends AbstractEvent<OpenQuestDialogData> {
 		return this.attributes;
 	}
 	
+	override getBranchNames(): string[] | undefined {
+		return ['accepted', 'declined'];
+	}
+	
 	update() {
 		this.info = this.combineStrings(
 			this.getTypeString('#7ea3ff'),

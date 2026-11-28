@@ -1,6 +1,5 @@
 import { Helper } from '../../../../services/phaser/helper';
 import { Label, Person } from '../../../../models/events';
-import { EntityAttributes } from '../../../../services/phaser/entities/cc-entity';
 import { AbstractEvent, EventType } from './abstract-event';
 import { DefaultEvent } from './default-event';
 
@@ -17,6 +16,10 @@ export interface ShowChoiceData extends EventType {
 }
 
 export class ShowChoice extends DefaultEvent<ShowChoiceData> {
+	override getBranchNames(): string[] | undefined {
+		return Object.keys(this.data.options);
+	}
+	
 	override update() {
 		this.children = [];
 		this.info = this.combineStrings(
